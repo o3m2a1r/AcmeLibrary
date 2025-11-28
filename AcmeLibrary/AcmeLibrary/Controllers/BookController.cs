@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using AcmeLibrary.Models;
 
 namespace AcmeLibrary.Controllers
 {
@@ -13,7 +14,9 @@ namespace AcmeLibrary.Controllers
 
         public ActionResult Index()
         {
-            return View();
+            var context = new AcmeLibraryDataEntities();
+            var books = context.Books;
+            return View(books);
         }
 
         //
