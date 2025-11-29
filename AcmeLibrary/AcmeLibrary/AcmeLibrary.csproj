@@ -88,6 +88,10 @@
       <DependentUpon>AcmeLibraryData.mdf</DependentUpon>
     </Content>
     <Content Include="Global.asax" />
+    <Content Include="Views\Book\Create.aspx" />
+    <Content Include="Views\Book\Delete.aspx" />
+    <Content Include="Views\Book\Details.aspx" />
+    <Content Include="Views\Book\Edit.aspx" />
     <Content Include="Views\Book\Index.aspx" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
