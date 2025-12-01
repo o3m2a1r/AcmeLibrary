@@ -34,16 +34,12 @@ namespace AcmeLibrary.Controllers
 
         public ActionResult Create()
         {
-            var context = new AcmeLibraryDataEntities();
             var book = new Book
             {
                 Author = "(Author)",
                 Title = "(Title)",
                 //ISBN = "(ISBN)"
             };
-            context.AddToBooks(book);
-            TempData["context"] = context;
-            TempData["book"] = book;
             return View(book);
         } 
 
@@ -51,9 +47,21 @@ namespace AcmeLibrary.Controllers
         // POST: /Book/Create
 
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create(Book newBook)
         {
-            return Edit(-1, collection);
+            try
+            {
+                using (var context = new AcmeLibraryDataEntities())
+                {
+                    context.AddToBooks(newBook);
+                    context.SaveChanges();
+                }
+                return RedirectToAction("Index");
+            }
+            catch
+            {
+                return View();
+            }
         }
         
         //
