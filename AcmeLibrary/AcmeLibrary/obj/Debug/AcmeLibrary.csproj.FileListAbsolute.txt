@@ -1,0 +1,5 @@
+C:\Users\hic\Documents\GitHub\AcmeLibrary\AcmeLibrary\AcmeLibrary\bin\AcmeLibrary.dll
+C:\Users\hic\Documents\GitHub\AcmeLibrary\AcmeLibrary\AcmeLibrary\bin\AcmeLibrary.pdb
+C:\Users\hic\Documents\GitHub\AcmeLibrary\AcmeLibrary\AcmeLibrary\obj\Debug\AcmeLibrary.csprojResolveAssemblyReference.cache
+C:\Users\hic\Documents\GitHub\AcmeLibrary\AcmeLibrary\AcmeLibrary\obj\Debug\AcmeLibrary.dll
+C:\Users\hic\Documents\GitHub\AcmeLibrary\AcmeLibrary\AcmeLibrary\obj\Debug\AcmeLibrary.pdb
