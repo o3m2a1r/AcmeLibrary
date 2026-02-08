@@ -60,7 +60,11 @@ namespace AcmeLibrary.Controllers
  
         public ActionResult Edit(int id)
         {
-            return View();
+            var context = new AcmeLibraryDataEntities();
+            var book = context.Books.First(b => b.Id == id);
+            TempData["context"] = context;
+            TempData["book"] = book;
+            return View(book);
         }
 
         //
@@ -71,7 +75,22 @@ namespace AcmeLibrary.Controllers
         {
             try
             {
-                // TODO: Add update logic here
+                var context = TempData["context"] as AcmeLibraryDataEntities;
+                var book = TempData["book"] as Book;
+                if (context != null && book != null)
+                {
+                    book.Author = collection["Author"];
+                    book.Title = collection["Title"];
+                    book.ISBN = collection["ISBN"];
+                    DateTime published;
+                    if (DateTime.TryParse(collection["published"], out published))
+                    {
+                        book.Published = published;
+                    }
+                    book.Publisher = collection["Publisher"];
+                    context.SaveChanges();
+                    context.Dispose();
+                }
  
                 return RedirectToAction("Index");
             }
