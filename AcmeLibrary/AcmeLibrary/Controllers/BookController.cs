@@ -106,7 +106,11 @@ namespace AcmeLibrary.Controllers
  
         public ActionResult Delete(int id)
         {
-            return View();
+            var context = new AcmeLibraryDataEntities();
+            var book = context.Books.First(b => b.Id == id);
+            TempData["context"] = context;
+            TempData["book"] = book;
+            return View(book);
         }
 
         //
@@ -117,7 +121,14 @@ namespace AcmeLibrary.Controllers
         {
             try
             {
-                // TODO: Add delete logic here
+                var context = TempData["context"] as AcmeLibraryDataEntities;
+                var book = TempData["book"] as Book;
+                if (context != null && book != null)
+                {
+                    context.DeleteObject(book);
+                    context.SaveChanges();
+                    context.Dispose();
+                }
  
                 return RedirectToAction("Index");
             }
