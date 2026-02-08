@@ -24,7 +24,9 @@ namespace AcmeLibrary.Controllers
 
         public ActionResult Details(int id)
         {
-            return View();
+            var context = new AcmeLibraryDataEntities();
+            var book = context.Books.First(b => b.Id == id);
+            return View(book);
         }
 
         //
