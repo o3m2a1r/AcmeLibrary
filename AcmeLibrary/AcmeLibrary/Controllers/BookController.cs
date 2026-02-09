@@ -105,35 +105,29 @@ namespace AcmeLibrary.Controllers
  
         public ActionResult Delete(int id)
         {
-            var context = new AcmeLibraryDataEntities();
-            var book = context.Books.First(b => b.Id == id);
-            TempData["context"] = context;
-            TempData["book"] = book;
-            return View(book);
+            return Edit(id);
         }
 
         //
         // POST: /Book/Delete/5
 
         [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
+        public ActionResult Delete(Book bookToDelete)
         {
-            try
+            try 
             {
-                var context = TempData["context"] as AcmeLibraryDataEntities;
-                var book = TempData["book"] as Book;
-                if (context != null && book != null)
+                using (var context = new AcmeLibraryDataEntities())
                 {
-                    context.DeleteObject(book);
+                    context.Books.Attach(bookToDelete);
+                    context.Books.DeleteObject(bookToDelete);
                     context.SaveChanges();
-                    context.Dispose();
                 }
  
                 return RedirectToAction("Index");
             }
             catch
             {
-                return View();
+                return View(bookToDelete);
             }
         }
     }
