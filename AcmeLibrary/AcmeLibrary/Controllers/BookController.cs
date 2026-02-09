@@ -34,16 +34,12 @@ namespace AcmeLibrary.Controllers
 
         public ActionResult Create()
         {
-            var context = new AcmeLibraryDataEntities();
             var book = new Book
             {
                 Author = "(Author)",
                 Title = "(Title)",
                 ISBN = "(ISBN)"
             };
-            context.AddToBooks(book);
-            TempData["context"] = context;
-            TempData["book"] = book;
             return View(book);
         } 
 
@@ -51,9 +47,21 @@ namespace AcmeLibrary.Controllers
         // POST: /Book/Create
 
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create(Book newBook)
         {
-            return Edit(-1, collection);
+            try
+            {
+                using(var context = new AcmeLibraryDataEntities())
+                {
+                    context.AddToBooks(newBook);
+                    context.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+            }
+            catch
+            {
+                return View(newBook);
+            }
         }
         
         //
@@ -61,43 +69,34 @@ namespace AcmeLibrary.Controllers
  
         public ActionResult Edit(int id)
         {
-            var context = new AcmeLibraryDataEntities();
-            var book = context.Books.First(b => b.Id == id);
-            TempData["context"] = context;
-            TempData["book"] = book;
-            return View(book);
+            using (var context = new AcmeLibraryDataEntities())
+            {
+                var book = context.Books.First(b => b.Id == id);
+                context.Detach(book);
+                return View(book);
+            }
         }
 
         //
         // POST: /Book/Edit/5
 
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(Book editedBook)
         {
             try
             {
-                var context = TempData["context"] as AcmeLibraryDataEntities;
-                var book = TempData["book"] as Book;
-                if (context != null && book != null)
+                using (var context = new AcmeLibraryDataEntities())
                 {
-                    book.Author = collection["Author"];
-                    book.Title = collection["Title"];
-                    book.ISBN = collection["ISBN"];
-                    DateTime published;
-                    if (DateTime.TryParse(collection["published"], out published))
-                    {
-                        book.Published = published;
-                    }
-                    book.Publisher = collection["Publisher"];
+                    context.Books.Attach(editedBook);
+                    context.Books.ApplyOriginalValues(new Book {Id = editedBook.Id });
                     context.SaveChanges();
-                    context.Dispose();
                 }
  
                 return RedirectToAction("Index");
             }
             catch
             {
-                return View();
+                return View(editedBook);
             }
         }
 
