@@ -9,7 +9,7 @@
     <h2>Create</h2>
 
     <% using (Html.BeginForm()) {%>
-        <%: Html.ValidationSummary(true) %>
+        <%: Html.ValidationSummary(false, "There are some invalid input data: ")%>
 
         <fieldset>
             <legend>New Book Attributes</legend>

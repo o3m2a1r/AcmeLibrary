@@ -49,19 +49,23 @@ namespace AcmeLibrary.Controllers
         [HttpPost]
         public ActionResult Create(Book newBook)
         {
-            try
+            if(ModelState.IsValid)
             {
-                using(var context = new AcmeLibraryDataEntities())
+                try
                 {
-                    context.AddToBooks(newBook);
-                    context.SaveChanges();
-                    return RedirectToAction("Index");
+                    using (var context = new AcmeLibraryDataEntities())
+                    {
+                        context.AddToBooks(newBook);
+                        context.SaveChanges();
+                        return RedirectToAction("Index");
+                    }
+                }
+                catch
+                {
+                    return View(newBook);
                 }
             }
-            catch
-            {
-                return View(newBook);
-            }
+            return View(newBook);
         }
         
         //
