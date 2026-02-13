@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations;
 namespace AcmeLibrary.Models
 {
     [MetadataType(typeof(BookMetadata))]
-    public partial class book
+    public partial class Book
     {
 
     }
