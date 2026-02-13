@@ -87,21 +87,25 @@ namespace AcmeLibrary.Controllers
         [HttpPost]
         public ActionResult Edit(Book editedBook)
         {
-            try
+            if (ModelState.IsValid)
             {
-                using (var context = new AcmeLibraryDataEntities())
+                try
                 {
-                    context.Books.Attach(editedBook);
-                    context.Books.ApplyOriginalValues(new Book {Id = editedBook.Id });
-                    context.SaveChanges();
+                    using (var context = new AcmeLibraryDataEntities())
+                    {
+                        context.Books.Attach(editedBook);
+                        context.Books.ApplyOriginalValues(new Book { Id = editedBook.Id });
+                        context.SaveChanges();
+                    }
+
+                    return RedirectToAction("Index");
                 }
- 
-                return RedirectToAction("Index");
+                catch
+                {
+                    return View(editedBook);
+                }
             }
-            catch
-            {
-                return View(editedBook);
-            }
+            return View(editedBook);
         }
 
         //
