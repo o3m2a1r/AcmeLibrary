@@ -80,6 +80,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>AcmeLibraryModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\BookMetadata.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
